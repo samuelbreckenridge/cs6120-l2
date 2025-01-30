@@ -22,15 +22,15 @@ class CFG:
             terminator = block[-1]
             if "op" not in terminator:
                 # Handle block consisting of a single label
-                successors[i] = i+1
+                successors[i] = [i+1]
             else:
                 if terminator["op"] == "ret" or i == len(blocks) - 1:
                     # Returns and final block have a common successor
-                    successors[i] = len(blocks)
+                    successors[i] = [len(blocks)]
                 elif terminator["op"] in ["jmp", "br"]:
                     successors[i] = [label_to_block_index[l] for l in terminator["labels"]]
                 else:
-                    successors[i] = i+1
+                    successors[i] = [i+1]
         return cls(blocks, successors)
 
     def __repr__(self) -> str:
